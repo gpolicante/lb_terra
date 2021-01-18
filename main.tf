@@ -28,3 +28,15 @@ resource "aws_lb_target_group_attachment" "attach_instance" {
   target_id        =  var.instanceid[count.index]
   port             = var.portinstance
 }
+
+resource "aws_lb_listener" "frontend" { 
+load_balancer_arn = aws_lb.loadbalancer.arn 
+port = var.portlb
+protocol = var.protocol
+        default_action { 
+            type = "forward"
+            target_group_arn = aws_lb_target_group.group_instance.arn
+
+        }
+
+}
